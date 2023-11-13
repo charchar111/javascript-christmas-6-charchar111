@@ -14,6 +14,7 @@ const Controller = {
   previewBenefit: function ({ date, menu }) {
     OutputView.printOrder(menu);
     OutputView.printTotal(menu);
+    OutputView.printGift(totalPrice);
   },
 };
 

@@ -35,7 +35,34 @@ const OutputView = {
     MissionUtils.Console.print(`<주문 메뉴>\n${order}`);
   },
 
-  printTotal(Menu) {},
+  printTotal(input) {
+    const order = {};
+    let totalPrice = 0;
+    const copyMenu = input
+      .split(/[,-]/)
+      .map((element) => element.replaceAll("'", ""));
+
+    copyMenu.forEach((element, index, array) => {
+      if (index === 0) {
+        order[element] = undefined;
+        return;
+      }
+
+      if (index % 2 === 1 && isNaN(Number(element)) == false) {
+        order[array[index - 1]] = Number(element);
+        return;
+      }
+
+      order[element] = undefined;
+    });
+
+    Object.keys(order).forEach((element) => {
+      const price = Menu.getPriceByName(element) * order[element];
+
+      totalPrice += price;
+    });
+    MissionUtils.Console.print(`<할인 전 총주문 금액>\n${totalPrice}원`);
+  },
 
   // ...
 };

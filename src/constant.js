@@ -43,4 +43,17 @@ export const Menu = {
     delete copyAllMenu.category;
     return JSON.stringify(copyAllMenu).slice(1, -1).replaceAll('"', "");
   },
+  getPriceByName: function (name) {
+    let target;
+    const keys = Object.keys(this.allMenu);
+    keys.forEach((property) => {
+      if (this.allMenu[property][name] !== undefined) {
+        target = this.allMenu[property][name];
+        return;
+        // 타겟 할당
+      }
+    });
+
+    return target;
+  },
 };
