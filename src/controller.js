@@ -1,3 +1,4 @@
+import Calculate from "./calculate";
 import InputView from "./views/InputView";
 import OutputView from "./views/OutputView";
 
@@ -13,8 +14,9 @@ const Controller = {
   },
   previewBenefit: function ({ date, menu }) {
     OutputView.printOrder(menu);
-    OutputView.printTotal(menu);
-    OutputView.printGift(totalPrice);
+    const total = Calculate.total(menu);
+    OutputView.printTotal(total);
+    OutputView.printGift(total);
   },
 };
 
