@@ -5,6 +5,7 @@ class App {
     Controller.printIntro();
     const userSetting = await Controller.userSetting();
     console.log(userSetting);
+    Controller.previewBenefit(userSetting);
   }
 }
 

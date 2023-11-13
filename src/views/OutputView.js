@@ -8,14 +8,13 @@ const OutputView = {
     );
   },
   printMenu() {
-    const menu = new Menu();
     let message = "";
-    MissionUtils.Console.print("---주문 메뉴----");
+    MissionUtils.Console.print("<메뉴>");
 
-    menu.getAllMenu().forEach((element) => {
+    Menu.getAllMenu().forEach((element) => {
       const title = element.label;
 
-      const content = menu.getStringByCategory(element.category);
+      const content = Menu.getStringByCategory(element.category);
 
       message += `<${title}>\n${content}\n\n`;
     });
@@ -23,6 +22,21 @@ const OutputView = {
 
     // ...
   },
+
+  printOrder(Menu) {
+    //ex) Menu: '티본스테이크-1,바비큐립-1,초코케이크-2,제로콜라-1'
+    MissionUtils.Console.print(
+      "12월 26일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!"
+    );
+    const order = Menu.replaceAll(/(\D+)-(\d+)/g, "$1 $2개\n").replaceAll(
+      ",",
+      ""
+    );
+    MissionUtils.Console.print(`<주문 메뉴>\n${order}`);
+  },
+
+  printTotal(Menu) {},
+
   // ...
 };
 

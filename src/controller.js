@@ -11,6 +11,10 @@ const Controller = {
     const menu = await InputView.readMenu();
     return { date, menu };
   },
+  previewBenefit: function ({ date, menu }) {
+    OutputView.printOrder(menu);
+    OutputView.printTotal(menu);
+  },
 };
 
 export default Controller;
