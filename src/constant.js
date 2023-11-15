@@ -57,3 +57,10 @@ export const Menu = {
     return target;
   },
 };
+
+export const switchBitLog = {
+  DISCOUNT_D_DAY: 1,
+  DISCOUNT_WEEKDAY: 1 << 1,
+  DISCOUNT_WEEKEND: 1 << 2,
+  DISCOUNT_SPECIAL: 1 << 3,
+};

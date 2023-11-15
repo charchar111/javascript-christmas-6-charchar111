@@ -9,14 +9,17 @@ const Controller = {
   userSetting: async function () {
     const date = await InputView.readDate();
     OutputView.printMenu();
-    const menu = await InputView.readMenu();
-    return { date, menu };
+    const menuInput = await InputView.readMenu();
+    const order = Calculate.makeOrder(menuInput);
+    return { date, order };
   },
-  previewBenefit: function ({ date, menu }) {
-    OutputView.printOrder(menu);
-    const total = Calculate.total(menu);
+  previewBenefit: function ({ date, order }) {
+    OutputView.printOrder(order);
+    const total = Calculate.total(order);
     OutputView.printTotal(total);
     OutputView.printGift(total);
+    const trigger = Calculate.triggerSwitchEvent(order);
+    if (trigger) Calculate.switchEvent({ date, order });
   },
 };
 

@@ -23,16 +23,18 @@ const OutputView = {
     // ...
   },
 
-  printOrder(Menu) {
-    //ex) Menu: '티본스테이크-1,바비큐립-1,초코케이크-2,제로콜라-1'
+  printOrder(order) {
+    //ex) order: { '티본스테이크': 1, '바비큐립': 1, '초코케이크': 2, '제로콜라': 1 }
     MissionUtils.Console.print(
       "12월 26일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!"
     );
-    const order = Menu.replaceAll(/(\D+)-(\d+)/g, "$1 $2개\n").replaceAll(
-      ",",
-      ""
-    );
-    MissionUtils.Console.print(`<주문 메뉴>\n${order}`);
+    let orderString = "";
+
+    for (const key in order) {
+      orderString += `${key} ${order[key]}개\n`;
+    }
+
+    MissionUtils.Console.print(`<주문 메뉴>\n${orderString.trim()}`);
   },
 
   printTotal(totalPrice) {
