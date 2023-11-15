@@ -1,3 +1,10 @@
+export const MenuCategoryEnum = {
+  appetizer: "appetizer",
+  main: "main",
+  dessert: "dessert",
+  drink: "drink",
+};
+
 export const Menu = {
   allMenu: {
     appetizer: {
@@ -5,7 +12,7 @@ export const Menu = {
       타파스: 5500,
       시저샐러드: 8000,
       label: "애피타이저",
-      category: "appetizer",
+      category: MenuCategoryEnum.appetizer,
     },
     main: {
       티본스테이크: 55000,
@@ -13,13 +20,13 @@ export const Menu = {
       해산물파스타: 35000,
       크리스마스파스타: 25000,
       label: "메인",
-      category: "main",
+      category: MenuCategoryEnum.main,
     },
     dessert: {
       초코케이크: 15000,
       아이스크림: 5000,
       label: "디저트",
-      category: "dessert",
+      category: MenuCategoryEnum.dessert,
     },
 
     drink: {
@@ -27,7 +34,7 @@ export const Menu = {
       레드와인: 60000,
       샴페인: 25000,
       label: "음료",
-      category: "drink",
+      category: MenuCategoryEnum.drink,
     },
   },
 
@@ -63,4 +70,10 @@ export const switchBitLog = {
   DISCOUNT_WEEKDAY: 1 << 1,
   DISCOUNT_WEEKEND: 1 << 2,
   DISCOUNT_SPECIAL: 1 << 3,
+};
+
+export const discountLog = {
+  special: 1000,
+  StandardCostGift: 120000,
+  gift: [{ prize: "샴페인", cost: 25000, count: 1 }],
 };

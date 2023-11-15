@@ -15,14 +15,13 @@ const Controller = {
   },
   previewBenefit: function ({ date, order }) {
     let benefit;
-
     OutputView.printOrder(order);
     const total = Calculate.total(order);
     OutputView.printTotal(total);
     OutputView.printGift(total);
     const trigger = Calculate.triggerSwitchEvent(order);
 
-    if (trigger) benefit = Calculate.switchEvent(date, order, benefit);
+    if (trigger) benefit = Calculate.switchEvent(date, order, benefit, total);
     OutputView.printBenefit(benefit);
   },
 };

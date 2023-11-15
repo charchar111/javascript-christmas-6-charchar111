@@ -1,5 +1,5 @@
 import { MissionUtils } from "@woowacourse/mission-utils";
-import { Menu, switchBitLog } from "./constant";
+import { Menu, MenuCategoryEnum, discountLog, switchBitLog } from "./constant";
 
 const Calculate = {
   makeOrder: function (order) {
@@ -44,15 +44,16 @@ const Calculate = {
       console.log("최소 금액 미달");
       return false;
     }
+    return true;
   },
 
-  switchEvent: function (date, order, benefit) {
+  switchEvent: function (date, order, benefit, total) {
     //  date: '3', order: { '티본스테이크': 1, '바비큐립': 1, '초코케이크': 2, '제로콜라': 1 },benefit=undefined
     let copyBenefit;
 
     const Week = new Date(`2023-12-${date.padStart(2, 0)}`).getDay();
-
     // 일 =0, 토=6
+
     let checkBit = 0;
     const isSunday = (date) => (date - 3) % 7;
     if (date >= 1 && date <= 25)
@@ -74,29 +75,61 @@ const Calculate = {
     };
 
     if (checkBit & switchBitLog.DISCOUNT_D_DAY)
-      copyBenefit.DDay = this.DiscountDDay(copyBenefit, date);
+      copyBenefit.DDay = this.DiscountDDay(date);
     if (checkBit & switchBitLog.DISCOUNT_WEEKDAY)
-      this.DiscountWeekday(copyBenefit);
+      copyBenefit.weekday = this.DiscountWeekday(order);
     if (checkBit & switchBitLog.DISCOUNT_WEEKEND)
-      this.DiscountWeekend(copyBenefit);
+      copyBenefit.weekend = this.DiscountWeekend(order);
     if (checkBit & switchBitLog.DISCOUNT_SPECIAL)
-      this.DiscountSpecial(copyBenefit);
+      copyBenefit.special = discountLog.special;
+    if (total > discountLog.StandardCostGift) null;
+    copyBenefit.gift = discountLog.gift;
 
     return copyBenefit;
   },
-  DiscountDDay: function (benefit, date) {
+  DiscountDDay: function (date) {
     console.log("DiscountDDay");
     const discount = 1000 + (date - 1) * 100;
     return discount;
   },
-  DiscountWeekday: function (benefit) {
+  DiscountWeekday: function (order) {
     console.log("DiscountWeekday");
+    // order: { '티본스테이크': 1, '바비큐립': 1, '초코케이크': 2, '제로콜라': 1 }
+    let discount = 0;
+
+    for (const food in order) {
+      for (const menuKey in Menu.allMenu) {
+        const price = Menu.allMenu[menuKey][food];
+
+        if (price !== undefined && menuKey == MenuCategoryEnum.dessert) {
+          // 해당 메뉴가 카테고리에 존재 && 디저트
+          discount += order[food] * 2023;
+          // 할인 금액 추기
+        }
+      }
+    }
+    return discount;
   },
-  DiscountWeekend: function (benefit) {
+  DiscountWeekend: function (order) {
     console.log("DiscountWeekend");
-  },
-  DiscountSpecial: function (benefit) {
-    console.log("DiscountSpecial");
+    // order: { '티본스테이크': 1, '바비큐립': 5, '초코케이크': 2, '제로콜라': 1 }
+    let discount = 0;
+
+    for (const food in order) {
+      for (const menuKey in Menu.allMenu) {
+        const price = Menu.allMenu[menuKey][food];
+
+        if (price !== undefined && menuKey == MenuCategoryEnum.main) {
+          // 해당 메뉴가 카테고리에 존재 && 디저트
+          console.log(food);
+          discount += order[food] * 2023;
+          // 할인 금액 추기
+        }
+      }
+    }
+
+    console.log(discount);
+    return discount;
   },
 };
 

@@ -1,5 +1,5 @@
 import { MissionUtils } from "@woowacourse/mission-utils";
-import { Menu } from "../constant";
+import { Menu, discountLog } from "../constant";
 
 const OutputView = {
   init() {
@@ -46,7 +46,7 @@ const OutputView = {
    * @param {number} totalPrice
    */
   printGift(totalPrice) {
-    const gift = totalPrice >= 120000 ? "샴페인 1개" : "없음";
+    const gift = totalPrice >= discountLog.special ? "샴페인 1개" : "없음";
     MissionUtils.Console.print(`<증정 메뉴>\n${gift}`);
   },
 
@@ -58,8 +58,19 @@ const OutputView = {
       special: null,
       gift: null,
     };
+    console.log(benefit);
     if (benefit !== undefined) {
       // 혜택 로직
+      if (benefit.DDay)
+        message.DDay = `크리스마스 디데이 할인: -${benefit.DDay}원`;
+
+      if (benefit.gift) {
+        let giftTotal = 0;
+        for (const gift of benefit.gift) {
+          giftTotal += benefit.gift.cost * benefit.gift.count;
+        }
+        message.gift = `증정 이벤트: -${giftTotal}원`;
+      }
     }
     MissionUtils.Console.print(
       `<혜택 내역>\n${message.DDay == null ? "없음" : message.DDay}`
