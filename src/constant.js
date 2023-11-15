@@ -63,6 +63,13 @@ export const Menu = {
 
     return target;
   },
+  getCategoryByName: function (name) {
+    let targetCategory;
+    for (const category in this.allMenu) {
+      if (this.allMenu[category][name] !== undefined) targetCategory = category;
+    }
+    return targetCategory;
+  },
 };
 
 export const switchBitLog = {

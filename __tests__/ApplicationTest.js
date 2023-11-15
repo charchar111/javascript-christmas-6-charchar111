@@ -182,4 +182,21 @@ describe("예외 테스트", () => {
       expect.stringContaining(INVALID_ORDER_MESSAGE)
     );
   });
+
+  test("주문 예외 테스트 추가5: 음료만 주문하는 경우 ", async () => {
+    // given
+    const INVALID_ORDER_MESSAGE = "[ERROR] 음료만 주문할 수는 없습니다.";
+    const INPUTS_TO_END = ["해산물파스타-2,제로콜라-2,레드와인-1"];
+    const logSpy = getLogSpy();
+    mockQuestions(["3", "제로콜라-2,레드와인-1", ...INPUTS_TO_END]);
+
+    // when
+    const app = new App();
+    await app.run();
+
+    // then
+    expect(logSpy).toHaveBeenCalledWith(
+      expect.stringContaining(INVALID_ORDER_MESSAGE)
+    );
+  });
 });

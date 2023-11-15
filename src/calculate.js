@@ -8,7 +8,6 @@ const Calculate = {
       .split(/[,-]/)
       .map((element) => element.replaceAll("'", ""));
 
-    console.log(orderArray);
     this.validateOrderArray(orderArray);
     const newOrder = this.makeNewOrder(orderArray);
     // console.log(newOrder);
@@ -49,18 +48,18 @@ const Calculate = {
       )
         throw new Error("유효하지 않은 주문입니다. 다시 입력해 주세요.");
       if (Menu.getPriceByName(foodKey) === undefined)
-        throw new Error(
-          "[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요."
-        );
-      // if (true)
-      //   throw new Error(
-      //     "[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요."
-      //   );
+        throw new Error("유효하지 않은 주문입니다. 다시 입력해 주세요.");
+
       // if (true)
       //   throw new Error(
       //     "[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요."
       //   );
     }
+    const orderCategory = [];
+    for (const foodKey in newOrder)
+      orderCategory.push(Menu.getCategoryByName(foodKey));
+    if (orderCategory.find((element) => element !== "drink") == undefined)
+      throw new Error("음료만 주문할 수는 없습니다.");
   },
 
   total: function (order) {
