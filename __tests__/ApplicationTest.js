@@ -53,6 +53,7 @@ describe("기능 테스트", () => {
     expectLogContains(getOutput(logSpy), expected);
   });
 
+  // 임시 추가
   test("모든 타이틀 출력(주말)", async () => {
     // given
     const logSpy = getLogSpy();
@@ -75,6 +76,7 @@ describe("기능 테스트", () => {
 
     expectLogContains(getOutput(logSpy), expected);
   });
+  //
 
   test("혜택 내역 타이틀과 없음 출력", async () => {
     // given

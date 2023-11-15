@@ -41,17 +41,14 @@ const OutputView = {
     MissionUtils.Console.print(`<할인 전 총주문 금액>\n${totalPrice}원`);
   },
 
-  /**
-   *
-   * @param {number} totalPrice
-   */
   printGift(totalPrice) {
     const gift =
       totalPrice >= discountLog.StandardCostGift ? "샴페인 1개" : "없음";
     MissionUtils.Console.print(`<증정 메뉴>\n${gift}`);
   },
 
-  printBenefit(benefit, total) {
+  makeMessageObj() {},
+  printTotalBenefit(benefit, total) {
     // benefit ={
     //   DDay: 1200,
     //   weekday: 4046,
@@ -59,9 +56,6 @@ const OutputView = {
     //   special: 1000,
     //   gift: [ { prize: '샴페인', cost: 25000, count: 1 } ]
     // }
-
-    let badge;
-
     const message = {
       DDay: null,
       weekday: null,
@@ -99,17 +93,6 @@ const OutputView = {
 
       if (benefit.totalDiscount > 0)
         message.totalDiscount = `-${benefit.totalDiscount.toLocaleString()}원`;
-
-      if (benefit.totalDiscount >= 5000 && benefit.totalDiscount < 10000) {
-        badge = "별";
-      } else if (
-        benefit.totalDiscount >= 10000 &&
-        benefit.totalDiscount < 20000
-      ) {
-        badge = "트리";
-      } else if (benefit.totalDiscount >= 20000) {
-        badge = "산타";
-      }
     }
 
     MissionUtils.Console.print(
@@ -140,11 +123,21 @@ const OutputView = {
         !benefit ? total : (total - benefit.totalDiscount).toLocaleString()
       }원`
     );
+
+    this.printBadge(benefit?.totalDiscount);
+  },
+
+  printBadge(discount) {
+    let badge;
+
+    if (discount >= 5000 && discount < 10000) badge = "별";
+    else if (discount >= 10000 && discount < 20000) badge = "트리";
+    else if (discount >= 20000) badge = "산타";
+
     MissionUtils.Console.print(
       `<12월 이벤트 배지>\n${badge === undefined ? "없음" : badge}`
     );
   },
-  // ...
 };
 
 export default OutputView;

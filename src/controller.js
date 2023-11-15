@@ -3,10 +3,8 @@ import InputView from "./views/InputView";
 import OutputView from "./views/OutputView";
 
 const Controller = {
-  printIntro: function () {
-    OutputView.init();
-  },
   userSetting: async function () {
+    OutputView.init();
     const date = await InputView.readDate();
     OutputView.printMenu();
     const menuInput = await InputView.readMenu();
@@ -20,9 +18,10 @@ const Controller = {
     OutputView.printTotal(total);
     OutputView.printGift(total);
     const trigger = Calculate.triggerSwitchEvent(order);
+    // 이벤트 적용 여부 검사
 
-    if (trigger) benefit = Calculate.switchEvent(date, order, benefit, total);
-    OutputView.printBenefit(benefit, total);
+    if (trigger) benefit = Calculate.switchEvent(date, order, total);
+    OutputView.printTotalBenefit(benefit, total);
   },
 };
 

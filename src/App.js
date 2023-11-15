@@ -2,7 +2,6 @@ import Controller from "./controller";
 
 class App {
   async run() {
-    Controller.printIntro();
     const userSetting = await Controller.userSetting();
     console.log(userSetting);
     Controller.previewBenefit(userSetting);
