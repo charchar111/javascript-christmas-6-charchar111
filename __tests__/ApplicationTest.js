@@ -107,7 +107,7 @@ describe("예외 테스트", () => {
   });
 
   // 추가 테스트
-  test("주문 예외 테스트 추가1: 메뉴 숫자를 안 적은 경우 ", async () => {
+  test("주문 예외 테스트 추가1: 메뉴 숫자를 안 적은 경우", async () => {
     // given
     const INVALID_ORDER_MESSAGE =
       "[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.";
@@ -125,7 +125,7 @@ describe("예외 테스트", () => {
     );
   });
 
-  test("주문 예외 테스트 추가2: 음식이 메뉴에 없는 경우 ", async () => {
+  test("주문 예외 테스트 추가2: 음식이 메뉴에 없는 경우", async () => {
     // given
     const INVALID_ORDER_MESSAGE =
       "[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.";
@@ -143,7 +143,7 @@ describe("예외 테스트", () => {
     );
   });
 
-  test("주문 예외 테스트 추가3: 음식의 갯수가 양의 정수가 아닌 경우 ", async () => {
+  test("주문 예외 테스트 추가3: 음식의 갯수가 양의 정수가 아닌 경우", async () => {
     // given
     const INVALID_ORDER_MESSAGE =
       "[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.";
@@ -161,7 +161,7 @@ describe("예외 테스트", () => {
     );
   });
 
-  test("주문 예외 테스트 추가4: 메뉴를 중복해서 입력한 경우 ", async () => {
+  test("주문 예외 테스트 추가4: 메뉴를 중복해서 입력한 경우", async () => {
     // given
     const INVALID_ORDER_MESSAGE =
       "[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.";
@@ -183,12 +183,34 @@ describe("예외 테스트", () => {
     );
   });
 
-  test("주문 예외 테스트 추가5: 음료만 주문하는 경우 ", async () => {
+  test("주문 예외 테스트 추가5: 음료만 주문하는 경우", async () => {
     // given
     const INVALID_ORDER_MESSAGE = "[ERROR] 음료만 주문할 수는 없습니다.";
     const INPUTS_TO_END = ["해산물파스타-2,제로콜라-2,레드와인-1"];
     const logSpy = getLogSpy();
     mockQuestions(["3", "제로콜라-2,레드와인-1", ...INPUTS_TO_END]);
+
+    // when
+    const app = new App();
+    await app.run();
+
+    // then
+    expect(logSpy).toHaveBeenCalledWith(
+      expect.stringContaining(INVALID_ORDER_MESSAGE)
+    );
+  });
+
+  test("주문 예외 테스트 추가6: 메뉴 주문이 20개를 초과하는 경우", async () => {
+    // given
+    const INVALID_ORDER_MESSAGE =
+      "[ERROR] 최대 주문 수량을 초과했습니다. 주문은 한번에 20개까지 가능합니다.";
+    const INPUTS_TO_END = ["해산물파스타-2,제로콜라-2,레드와인-1"];
+    const logSpy = getLogSpy();
+    mockQuestions([
+      "3",
+      "티본스테이크-1,바비큐립-4,초코케이크-4,제로콜라-12",
+      ...INPUTS_TO_END,
+    ]);
 
     // when
     const app = new App();

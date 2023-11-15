@@ -60,6 +60,14 @@ const Calculate = {
       orderCategory.push(Menu.getCategoryByName(foodKey));
     if (orderCategory.find((element) => element !== "drink") == undefined)
       throw new Error("음료만 주문할 수는 없습니다.");
+
+    console.log(newOrder);
+    let total = 0;
+    for (const foodKey in newOrder) total += newOrder[foodKey];
+    if (total > 20)
+      throw new Error(
+        "최대 주문 수량을 초과했습니다. 주문은 한번에 20개까지 가능합니다."
+      );
   },
 
   total: function (order) {
