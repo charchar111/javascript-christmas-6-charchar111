@@ -105,4 +105,81 @@ describe("예외 테스트", () => {
       expect.stringContaining(INVALID_ORDER_MESSAGE)
     );
   });
+
+  // 추가 테스트
+  test("주문 예외 테스트 추가1: 메뉴 숫자를 안 적은 경우 ", async () => {
+    // given
+    const INVALID_ORDER_MESSAGE =
+      "[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.";
+    const INPUTS_TO_END = ["해산물파스타-2"];
+    const logSpy = getLogSpy();
+    mockQuestions(["3", "제로콜라", ...INPUTS_TO_END]);
+
+    // when
+    const app = new App();
+    await app.run();
+
+    // then
+    expect(logSpy).toHaveBeenCalledWith(
+      expect.stringContaining(INVALID_ORDER_MESSAGE)
+    );
+  });
+
+  test("주문 예외 테스트 추가2: 음식이 메뉴에 없는 경우 ", async () => {
+    // given
+    const INVALID_ORDER_MESSAGE =
+      "[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.";
+    const INPUTS_TO_END = ["해산물파스타-2"];
+    const logSpy = getLogSpy();
+    mockQuestions(["3", "나폴리탄-2", ...INPUTS_TO_END]);
+
+    // when
+    const app = new App();
+    await app.run();
+
+    // then
+    expect(logSpy).toHaveBeenCalledWith(
+      expect.stringContaining(INVALID_ORDER_MESSAGE)
+    );
+  });
+
+  test("주문 예외 테스트 추가3: 음식의 갯수가 양의 정수가 아닌 경우 ", async () => {
+    // given
+    const INVALID_ORDER_MESSAGE =
+      "[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.";
+    const INPUTS_TO_END = ["해산물파스타-2"];
+    const logSpy = getLogSpy();
+    mockQuestions(["3", "티본스테이크-0.5", ...INPUTS_TO_END]);
+
+    // when
+    const app = new App();
+    await app.run();
+
+    // then
+    expect(logSpy).toHaveBeenCalledWith(
+      expect.stringContaining(INVALID_ORDER_MESSAGE)
+    );
+  });
+
+  test("주문 예외 테스트 추가4: 메뉴를 중복해서 입력한 경우 ", async () => {
+    // given
+    const INVALID_ORDER_MESSAGE =
+      "[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.";
+    const INPUTS_TO_END = ["해산물파스타-2"];
+    const logSpy = getLogSpy();
+    mockQuestions([
+      "3",
+      "티본스테이크-2,해산물파스타-1,티본스테이크-1",
+      ...INPUTS_TO_END,
+    ]);
+
+    // when
+    const app = new App();
+    await app.run();
+
+    // then
+    expect(logSpy).toHaveBeenCalledWith(
+      expect.stringContaining(INVALID_ORDER_MESSAGE)
+    );
+  });
 });

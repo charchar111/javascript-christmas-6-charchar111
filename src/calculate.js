@@ -8,8 +8,23 @@ const Calculate = {
       .split(/[,-]/)
       .map((element) => element.replaceAll("'", ""));
 
+    console.log(orderArray);
+    this.validateOrderArray(orderArray);
     const newOrder = this.makeNewOrder(orderArray);
+    // console.log(newOrder);
+    this.validateNewOrder(newOrder);
     return newOrder;
+  },
+
+  validateOrderArray: function (orderArray) {
+    orderArray.forEach((element, index, array) => {
+      if (isNaN(Number(element)) == true) {
+        const isDuplicate =
+          array.filter((innerElement) => element == innerElement).length > 1;
+        if (isDuplicate == true)
+          throw new Error("유효하지 않은 주문입니다. 다시 입력해 주세요.");
+      }
+    });
   },
 
   makeNewOrder: function (orderArray) {
@@ -23,6 +38,29 @@ const Calculate = {
       newOrder[element] = undefined;
     });
     return newOrder;
+  },
+
+  validateNewOrder: function (newOrder) {
+    for (const foodKey in newOrder) {
+      if (
+        newOrder[foodKey] === undefined ||
+        newOrder[foodKey] <= 0 ||
+        newOrder[foodKey] % 1 !== 0
+      )
+        throw new Error("유효하지 않은 주문입니다. 다시 입력해 주세요.");
+      if (Menu.getPriceByName(foodKey) === undefined)
+        throw new Error(
+          "[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요."
+        );
+      // if (true)
+      //   throw new Error(
+      //     "[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요."
+      //   );
+      // if (true)
+      //   throw new Error(
+      //     "[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요."
+      //   );
+    }
   },
 
   total: function (order) {

@@ -1,3 +1,4 @@
+import { MissionUtils } from "@woowacourse/mission-utils";
 import Calculate from "./calculate";
 import InputView from "./views/InputView";
 import OutputView from "./views/OutputView";
@@ -7,10 +8,24 @@ const Controller = {
     OutputView.init();
     const date = await InputView.readDate();
     OutputView.printMenu();
-    const menuInput = await InputView.readMenu();
-    const order = Calculate.makeOrder(menuInput);
+
+    const order = await this.readMenuAndOrder();
+
     return { date, order };
   },
+
+  readMenuAndOrder: async function () {
+    while (true) {
+      try {
+        const menuInput = await InputView.readMenu();
+        const order = Calculate.makeOrder(menuInput);
+        return order;
+      } catch (error) {
+        MissionUtils.Console.print(`[ERROR] ${error.message}`);
+      }
+    }
+  },
+
   previewBenefit: function ({ date, order }) {
     let benefit;
     OutputView.printOrder(order);
