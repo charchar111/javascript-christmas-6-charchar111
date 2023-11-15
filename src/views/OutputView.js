@@ -47,7 +47,6 @@ const OutputView = {
     MissionUtils.Console.print(`<증정 메뉴>\n${gift}`);
   },
 
-  makeMessageObj() {},
   printTotalBenefit(benefit, total) {
     // benefit ={
     //   DDay: 1200,
@@ -66,9 +65,8 @@ const OutputView = {
     };
     console.log(benefit);
     if (benefit !== undefined) {
-      console.log("할인 로직");
       benefit.totalDiscount = 0;
-      // 혜택 로직
+
       if (benefit.DDay)
         message.DDay = `크리스마스 디데이 할인: -${benefit.DDay.toLocaleString()}원`;
 
