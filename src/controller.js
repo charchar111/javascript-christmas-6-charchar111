@@ -22,7 +22,7 @@ const Controller = {
     const trigger = Calculate.triggerSwitchEvent(order);
 
     if (trigger) benefit = Calculate.switchEvent(date, order, benefit, total);
-    OutputView.printBenefit(benefit);
+    OutputView.printBenefit(benefit, total);
   },
 };
 

@@ -82,18 +82,16 @@ const Calculate = {
       copyBenefit.weekend = this.DiscountWeekend(order);
     if (checkBit & switchBitLog.DISCOUNT_SPECIAL)
       copyBenefit.special = discountLog.special;
-    if (total > discountLog.StandardCostGift) null;
-    copyBenefit.gift = discountLog.gift;
+    if (total > discountLog.StandardCostGift)
+      copyBenefit.gift = discountLog.gift;
 
     return copyBenefit;
   },
   DiscountDDay: function (date) {
-    console.log("DiscountDDay");
     const discount = 1000 + (date - 1) * 100;
     return discount;
   },
   DiscountWeekday: function (order) {
-    console.log("DiscountWeekday");
     // order: { '티본스테이크': 1, '바비큐립': 1, '초코케이크': 2, '제로콜라': 1 }
     let discount = 0;
 
@@ -111,7 +109,6 @@ const Calculate = {
     return discount;
   },
   DiscountWeekend: function (order) {
-    console.log("DiscountWeekend");
     // order: { '티본스테이크': 1, '바비큐립': 5, '초코케이크': 2, '제로콜라': 1 }
     let discount = 0;
 

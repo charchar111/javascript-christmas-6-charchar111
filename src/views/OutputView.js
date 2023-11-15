@@ -46,45 +46,102 @@ const OutputView = {
    * @param {number} totalPrice
    */
   printGift(totalPrice) {
-    const gift = totalPrice >= discountLog.special ? "샴페인 1개" : "없음";
+    const gift =
+      totalPrice >= discountLog.StandardCostGift ? "샴페인 1개" : "없음";
     MissionUtils.Console.print(`<증정 메뉴>\n${gift}`);
   },
 
-  printBenefit(benefit) {
+  printBenefit(benefit, total) {
+    // benefit ={
+    //   DDay: 1200,
+    //   weekday: 4046,
+    //   weekend: null,
+    //   special: 1000,
+    //   gift: [ { prize: '샴페인', cost: 25000, count: 1 } ]
+    // }
+
+    let badge;
+
     const message = {
       DDay: null,
       weekday: null,
       weekend: null,
       special: null,
       gift: null,
+      totalDiscount: 0,
     };
     console.log(benefit);
     if (benefit !== undefined) {
+      console.log("할인 로직");
+      benefit.totalDiscount = 0;
       // 혜택 로직
       if (benefit.DDay)
-        message.DDay = `크리스마스 디데이 할인: -${benefit.DDay}원`;
+        message.DDay = `크리스마스 디데이 할인: -${benefit.DDay.toLocaleString()}원`;
+
+      if (benefit.weekday)
+        message.weekday = `평일 할인: -${benefit.weekday.toLocaleString()}원`;
+      if (benefit.weekend)
+        message.weekend = `주말 할인: -${benefit.weekend.toLocaleString()}원`;
+      if (benefit.special)
+        message.special = `특별 할인: -${benefit.special.toLocaleString()}원`;
 
       if (benefit.gift) {
         let giftTotal = 0;
         for (const gift of benefit.gift) {
-          giftTotal += benefit.gift.cost * benefit.gift.count;
+          giftTotal += gift.cost * gift.count;
         }
         message.gift = `증정 이벤트: -${giftTotal}원`;
+        benefit.totalDiscount += giftTotal;
+      }
+
+      benefit.totalDiscount +=
+        benefit.DDay + benefit.weekday + benefit.weekend + benefit.special;
+
+      if (benefit.totalDiscount > 0)
+        message.totalDiscount = `-${benefit.totalDiscount.toLocaleString()}원`;
+
+      if (benefit.totalDiscount >= 5000 && benefit.totalDiscount < 10000) {
+        badge = "별";
+      } else if (
+        benefit.totalDiscount >= 10000 &&
+        benefit.totalDiscount < 20000
+      ) {
+        badge = "트리";
+      } else if (benefit.totalDiscount >= 20000) {
+        badge = "산타";
       }
     }
+
     MissionUtils.Console.print(
-      `<혜택 내역>\n${message.DDay == null ? "없음" : message.DDay}`
-    );
-    MissionUtils.Console.print(
-      `<총혜택 금액>\n${message.weekday == null ? "없음" : message.weekday}`
-    );
-    MissionUtils.Console.print(
-      `<할인 후 예상 결제 금액>\n${
-        message.special == null ? "없음" : message.special
+      `<혜택 내역>\n${
+        !benefit
+          ? "없음"
+          : benefit.totalDiscount == 0
+          ? "없음"
+          : `${message.DDay !== null ? message.DDay + "\n" : ""}${
+              message.weekday !== null ? message.weekday + "\n" : ""
+            }${message.weekend !== null ? message.weekend + "\n" : ""}${
+              message.special !== null ? message.special + "\n" : ""
+            }${message.gift !== null ? message.gift + "\n" : ""}
+          `
       }`
     );
     MissionUtils.Console.print(
-      `<12월 이벤트 배지>\n${message.gift == null ? "없음" : message.gift}`
+      `<총혜택 금액>\n${
+        !benefit
+          ? "없음"
+          : benefit.totalDiscount == null
+          ? "없음"
+          : message.totalDiscount
+      }`
+    );
+    MissionUtils.Console.print(
+      `<할인 후 예상 결제 금액>\n${
+        !benefit ? total : (total - benefit.totalDiscount).toLocaleString()
+      }원`
+    );
+    MissionUtils.Console.print(
+      `<12월 이벤트 배지>\n${badge === undefined ? "없음" : badge}`
     );
   },
   // ...
