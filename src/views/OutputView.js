@@ -50,6 +50,32 @@ const OutputView = {
     MissionUtils.Console.print(`<증정 메뉴>\n${gift}`);
   },
 
+  printBenefit(benefit) {
+    const message = {
+      DDay: null,
+      weekday: null,
+      weekend: null,
+      special: null,
+      gift: null,
+    };
+    if (benefit !== undefined) {
+      // 혜택 로직
+    }
+    MissionUtils.Console.print(
+      `<혜택 내역>\n${message.DDay == null ? "없음" : message.DDay}`
+    );
+    MissionUtils.Console.print(
+      `<총혜택 금액>\n${message.weekday == null ? "없음" : message.weekday}`
+    );
+    MissionUtils.Console.print(
+      `<할인 후 예상 결제 금액>\n${
+        message.special == null ? "없음" : message.special
+      }`
+    );
+    MissionUtils.Console.print(
+      `<12월 이벤트 배지>\n${message.gift == null ? "없음" : message.gift}`
+    );
+  },
   // ...
 };
 

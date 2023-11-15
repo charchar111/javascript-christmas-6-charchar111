@@ -14,12 +14,16 @@ const Controller = {
     return { date, order };
   },
   previewBenefit: function ({ date, order }) {
+    let benefit;
+
     OutputView.printOrder(order);
     const total = Calculate.total(order);
     OutputView.printTotal(total);
     OutputView.printGift(total);
     const trigger = Calculate.triggerSwitchEvent(order);
-    if (trigger) Calculate.switchEvent({ date, order });
+
+    if (trigger) benefit = Calculate.switchEvent(date, order, benefit);
+    OutputView.printBenefit(benefit);
   },
 };
 
